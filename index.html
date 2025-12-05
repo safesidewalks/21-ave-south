@@ -41,13 +41,9 @@
         const ccEmail = "Thaddaeus.Gregory@seattle.gov";
         const subject = "Welcome to District 2! / Thoughts on 21st Ave S";
         
-        // This is the plain text version that goes into the email app
-        const examplesBlock = `(Feel free to use one of the examples below as inspiration)
-- "I want to feel safe walking with my grandchildren to the new light rail station."
-- "I've lived here for 30 years and want my street to be treated with the same dignity as others in Seattle."
-- "I have a young child and would like to be able to walk them to school without dodging cars."
-- "I have constant stormwater flooding that can only be addressed with curbed concrete sidewalks."`;
-
+        // --- BODY PARTS ---
+        
+        // Part 1: Intro and Story Placeholder
         const bodyPart1 = `Dear Councilmember Lin,
 
 Congratulations on your election! As a District 2 resident, I am eager to work with you.
@@ -57,16 +53,34 @@ I am writing to ask for your partnership regarding the 21st Ave S improvement pr
 [INSERT YOUR PERSONAL STORY HERE]
 `;
 
+        // Part 2: The Examples (Styled)
+        const examplesBlock = `(Feel free to use one of the examples below as inspiration)
+- "I want to feel safe walking with my grandchildren to the new light rail station."
+- "I've lived here for 30 years and want my street to be treated with the same dignity as others in Seattle."
+- "I have a young child and would like to be able to walk them to school without dodging cars."
+- "I have constant stormwater flooding that can only be addressed with curbed concrete sidewalks."`;
+
+        // Part 3: The Closing and Name Placeholder
         const bodyPart3 = `
 Please champion this investment for us. We are ready to support you in delivering a project that meets the Levy's highest standards.
 
 Sincerely,
 
 [YOUR NAME]
-[YOUR STREET & BLOCK] (e.g., "2300 Block of 21st Ave S" or "Beacon Hill Resident" — this confirms you are a District 2 constituent!)`;
+[YOUR STREET & BLOCK]`;
 
-        // Combine parts for the mailto link (Plain Text)
-        const fullBodyPlainText = bodyPart1 + examplesBlock + bodyPart3;
+        // Part 4: The Address Instruction (Styled)
+        const addressInstruction = ` (e.g., "2300 Block of 21st Ave S" or "Beacon Hill Resident" — this confirms you are a District 2 constituent!)`;
+
+        // --- COMBINE FOR EMAIL LINK (Plain Text) ---
+        const fullBodyPlainText = bodyPart1 + examplesBlock + bodyPart3 + addressInstruction;
+
+        // --- COMBINE FOR WEBPAGE DISPLAY (With HTML Styling) ---
+        // We wrap specific parts in <span> tags to apply the CSS class
+        const fullBodyHTML = bodyPart1 + 
+                             `<span class="instructional-text">${examplesBlock}</span>` + 
+                             bodyPart3 + 
+                             `<span class="instructional-text">${addressInstruction}</span>`;
 
         // --- LOGIC ---
         // 1. Encode the URI components for the mailto link
@@ -75,10 +89,8 @@ Sincerely,
         // 2. Set the button link
         document.getElementById('emailBtn').setAttribute('href', mailtoLink);
 
-        // 3. Display the text on screen (HTML Version)
-        // Here we wrap the examplesBlock in a span with the CSS class to color/italicize it
-        const styledExamples = `<span class="instructional-text">${examplesBlock}</span>`;
-        document.getElementById('emailBodyText').innerHTML = bodyPart1 + styledExamples + bodyPart3;
+        // 3. Display the text on screen with styling
+        document.getElementById('emailBodyText').innerHTML = fullBodyHTML;
 
         // 4. Attempt to auto-redirect
         window.location.href = mailtoLink;
